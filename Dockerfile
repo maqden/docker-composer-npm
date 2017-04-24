@@ -4,8 +4,15 @@ FROM centos:latest
 # System update
 RUN yum update -y
 
-# Install WGET
-RUN yum install -y wget
+# Install Initial Packages
+RUN yum install -y install -y --no-install-recommends \
+    curl \
+    wget \
+    git-all \
+    python-dev \
+    python-pip \
+    zlib1g-dev && \
+    pip install awscli
 
 # Install NODE
 RUN curl --silent --location https://rpm.nodesource.com/setup_7.x | bash - && \
