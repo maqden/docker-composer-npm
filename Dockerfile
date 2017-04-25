@@ -4,19 +4,9 @@ FROM centos:latest
 # System update
 RUN yum update -y
 
-# Install Initial Packages
-RUN yum install -y install -y --no-install-recommends \
-    curl \
-    wget \
-    git-all \
-    python-dev \
-    python-pip \
-    zlib1g-dev && \
-    pip install awscli
-
-# Install NODE
+# Install NODE & GIT
 RUN curl --silent --location https://rpm.nodesource.com/setup_7.x | bash - && \
-    yum install -y nodejs
+    yum install -y nodejs git-all
 
 # Install PHP 7.0 & Libraries
 RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
@@ -42,7 +32,6 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
     php70w-opcache \
     php70w-pdo \
     php70w-pdo_dblib \
-    php70w-pear \
     php70w-process \
     php70w-pspell \
     php70w-recode \
@@ -54,7 +43,7 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 RUN yum clean all
 
 # Install PHPUnit
-RUN wget https://phar.phpunit.de/phpunit.phar && \
+RUN curl -L https://phar.phpunit.de/phpunit.phar && \
     chmod +x phpunit.phar && \
     mv phpunit.phar /usr/bin/phpunit && \
     ln -s /usr/bin/phpunit /usr/local/bin/phpunit
